@@ -1,3 +1,4 @@
 api_key
 sdks-root
 .idea
+/go/vendor
