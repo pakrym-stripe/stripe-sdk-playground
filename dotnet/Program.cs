@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
 using Stripe;
+using Stripe.TestHelpers.Terminal;
 
 namespace stripe_dotnet_playground
 {
@@ -7,13 +11,37 @@ namespace stripe_dotnet_playground
     {
         static void Main(string[] args)
         {
-            StripeConfiguration.ApiKey = System.IO.File.ReadAllText("../api_key");
+            var httpClient = new HttpClient(
+                // Uncomment to override the version
+                //new VersionHttpClientHandler("2020-08-27;terminal_server_driven_beta=v1")
+                );
+            var service = new ReaderService(new StripeClient(
+                apiKey: System.IO.File.ReadAllText("../api_key"),
+                httpClient: new SystemNetHttpClient(httpClient)));
 
-            var options = new ChargeListOptions { Limit = 3 };
-            var service = new ChargeService();
-            foreach (var charge in service.List(options))
+            service.SimulatePayment("tmr_EihpMAqu6AYhxl");
+        }
+        
+        // WORKAROUND TO SET THE CLIENT VERSION
+        private class VersionHttpClientHandler: HttpClientHandler
+        {
+            private string _version; 
+            public VersionHttpClientHandler(string version)
             {
-                Console.WriteLine(charge);
+                this._version = version;
+            }
+            protected override HttpResponseMessage Send(HttpRequestMessage request, CancellationToken cancellationToken)
+            {
+                request.Headers.Remove("Stripe-Version");
+                request.Headers.TryAddWithoutValidation("Stripe-Version", _version);
+                return base.Send(request, cancellationToken);
+            }
+
+            protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+            {
+                request.Headers.Remove("Stripe-Version");
+                request.Headers.TryAddWithoutValidation("Stripe-Version", _version);
+                return base.SendAsync(request, cancellationToken);
             }
         }
     }
