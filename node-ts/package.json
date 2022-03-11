@@ -1,0 +1,12 @@
+{
+  "name": "stripe-node-playground",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "stripe": "../sdks-root/stripe-node",
+    "typescript": "^4.6.2"
+  },
+  "author": "",
+  "license": "ISC"
+}

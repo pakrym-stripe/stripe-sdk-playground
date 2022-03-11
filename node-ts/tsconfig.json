@@ -1,0 +1,11 @@
+{  
+    "compilerOptions": {    
+        "target": "es5",                         
+        "module": "commonjs",
+        "moduleResolution": "node"
+    },
+    "include": ["index.ts"],
+    "exclude": [
+        "node_modules"
+    ]
+}
