@@ -1,14 +1,14 @@
 #!/bin/sh
 set -e
-if [ -e api_key ]
+BASEDIR=$(dirname "$0")
+
+if [ ! -e "$BASEDIR/api_key" ]
 then
-    echo "ERROR: api_key file not found"
+    echo "ERROR: $BASEDIR/api_key file not found"
     exit 1
 fi
 
-if [ -e sdks-root ]
+if [ ! -e "$BASEDIR/sdks-root" ]
 then
-    exit
-else
-    ln -s ~/stripe sdks-root
+    ln -s ~/stripe "$BASEDIR/sdks-root"
 fi
