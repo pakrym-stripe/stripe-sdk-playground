@@ -1,0 +1,11 @@
+{
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../sdks-root/stripe-php"
+        }
+    ],
+    "require": {
+        "stripe/stripe-php": "@dev"
+    }
+}
