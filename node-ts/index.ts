@@ -1,10 +1,12 @@
 import { readFileSync } from 'fs';
 import Stripe from "stripe";
 
-const stripe = new Stripe(readFileSync('../api_key').toString(), 
-  // set custom API version or beta flags
+const key = readFileSync('../api_key').toString();
+const version = readFileSync('../api_version').toString();
+
+const stripe = new Stripe(key.toString(),
   // @ts-ignore
-  { apiVersion: '2020-08-27;terminal_server_driven_beta=v1' }
+  { apiVersion: version.toString() }
 );
 
 (async () => {

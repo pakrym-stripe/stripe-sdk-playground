@@ -1,9 +1,10 @@
 const { readFileSync } = require('fs');
 const Stripe = require("stripe");
 
-const stripe = Stripe(readFileSync('../api_key').toString(), {
-  // set custom API version or beta flags
-  // apiVersion: '2020-08-27;search_api_beta=v1'
+const key = readFileSync('../api_key');
+const version = readFileSync('../api_version');
+const stripe = Stripe(key.toString(), {
+  apiVersion: version.toString()
 });
 
 (async () => {

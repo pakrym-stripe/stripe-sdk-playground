@@ -11,10 +11,7 @@ namespace stripe_dotnet_playground
     {
         static void Main(string[] args)
         {
-            var httpClient = new HttpClient(
-                // Uncomment to override the version
-                //new VersionHttpClientHandler("2020-08-27;terminal_server_driven_beta=v1")
-                );
+            var httpClient = new HttpClient(new VersionHttpClientHandler(System.IO.File.ReadAllText("../api_version")));
             var service = new ReaderService(new StripeClient(
                 apiKey: System.IO.File.ReadAllText("../api_key"),
                 httpClient: new SystemNetHttpClient(httpClient)));
